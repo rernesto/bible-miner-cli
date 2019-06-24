@@ -1,0 +1,7 @@
+{
+  "name": "bible-miner-cli",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
