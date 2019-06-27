@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SearchService} from '../services/search.service';
 import {IonInfiniteScroll, IonContent} from '@ionic/angular';
+import {RemoteApiService} from '../services/remote-api.service';
 
 @Component({
   selector: 'app-search',
@@ -9,7 +9,7 @@ import {IonInfiniteScroll, IonContent} from '@ionic/angular';
 })
 export class SearchPage implements OnInit {
 
-  constructor(private searchService: SearchService) {
+  constructor(private apiService: RemoteApiService) {
     // this.searchValue = 'principio dios creo cielo';
     this.bibleVersionValue = 2;
     this.page = 1;
@@ -30,7 +30,7 @@ export class SearchPage implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.getBibleVersions().subscribe(response => {
+    this.apiService.getBibleVersions().subscribe(response => {
       this.bibleVersions = response;
     });
   }
@@ -45,7 +45,7 @@ export class SearchPage implements OnInit {
       this.page = 1;
       this.records = [];
       this.info = {};
-      this.searchService.searchData(
+      this.apiService.searchData(
         this.searchValue, this.bibleVersionValue, this.page
       ).subscribe(response => {
         this.records = this.records.concat(response.results);
@@ -62,7 +62,7 @@ export class SearchPage implements OnInit {
       event.target.complete();
     } else {
       setTimeout(() => {
-        this.searchService.searchData(
+        this.apiService.searchData(
             this.searchValue, this.bibleVersionValue, this.page
         ).subscribe(response => {
           this.records = this.records.concat(response.results);

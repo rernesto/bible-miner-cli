@@ -1,8 +1,8 @@
 {
-  "name": "bible-miner-cli",
+  "name": "org.bible.miner.search",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Rafael Ernesto Espinosa Santiesteban <rafael.espinosa@bible-miner.org>",
+  "homepage": "https://www.bible-miner.org",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

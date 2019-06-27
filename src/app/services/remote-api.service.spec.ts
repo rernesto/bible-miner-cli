@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SearchService } from './search.service';
+import { RemoteApiService } from './remote-api.service';
 
-describe('SearchService', () => {
+describe('RemoteApiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SearchService = TestBed.get(SearchService);
+    const service: RemoteApiService = TestBed.get(RemoteApiService);
     expect(service).toBeTruthy();
   });
 });
