@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <img alt="logo" height="40"   src="../../assets/icon/favicon_drk.png" >
+      <ion-title>
+        Search
+      </ion-title>
+    </ion-item>
+    <ion-item-group>
+      <ion-item>
+        <ion-select [(ngModel)]="bibleVersionValue" placeholder="Select Bible version..." style="min-width: 100%;">
+          <ion-select-option *ngFor="let bibleVersion of bibleVersions" [value]="bibleVersion.id">{{ bibleVersion.name }}</ion-select-option>
+<!--          <ion-select-option value="1">King James 2000</ion-select-option>-->
+<!--          <ion-select-option value="2">Reina Valera Gomez</ion-select-option>-->
+<!--          <ion-select-option value="3">Reina Valera 1865</ion-select-option>-->
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Search in the Bible" type="text" text-left id="input" [(ngModel)]="searchValue">
+        </ion-input>
+        <ion-button (click)="getSearchResults($event)">
+          <ion-icon slot="icon-only" name="search"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-item-group>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<!--  <ion-searchbar [(ngModel)]="searchValue" ]></ion-searchbar>-->
+  <ion-list>
+    <ion-item button *ngFor="let record of records">
+      <ion-label text-wrap>
+        <h2>{{ record.reference }}</h2>
+        <div [innerHTML]="record.verse_text" (click)="getSearchResultsByVerse($event)"></div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
