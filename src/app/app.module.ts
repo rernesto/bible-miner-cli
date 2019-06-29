@@ -11,6 +11,9 @@ import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { AdMobFree } from '@ionic-native/admob-free/ngx';
+import { AdmobFreeService } from './services/admob-free.service';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -18,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [
     StatusBar,
     SplashScreen,
+    AdMobFree,
+    AdmobFreeService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

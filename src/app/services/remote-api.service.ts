@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class RemoteApiService {
 
-  url = 'http://192.168.0.131:8000/api/';
+  url = 'https://api.bible-miner.org/api/';
 
   constructor(private http: HttpClient) { }
 
