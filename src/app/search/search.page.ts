@@ -11,7 +11,13 @@ export class SearchPage implements OnInit {
 
   constructor(private apiService: RemoteApiService) {
     // this.searchValue = 'principio dios creo cielo';
-    this.bibleVersionValue = 2;
+    const language = navigator.language.substring(0, 2);
+    if (language === 'en')
+    {
+      this.bibleVersionValue = 1;
+    } else {
+      this.bibleVersionValue = 2;
+    }
     this.page = 1;
   }
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;

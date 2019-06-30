@@ -17,11 +17,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'contact',
+        path: 'about',
         children: [
           {
             path: '',
-            loadChildren: '../contact/contact.module#ContactPageModule'
+            loadChildren: '../about/about.module#AboutPageModule'
           }
         ]
       },

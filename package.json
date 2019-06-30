@@ -27,6 +27,7 @@
     "@ionic/angular": "4.5.0",
     "cordova-admob-sdk": "0.24.1",
     "cordova-android": "^8.0.0",
+    "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-admob-free": "^0.27.0",
     "cordova-promise-polyfill": "0.0.2",
     "core-js": "^2.5.4",
@@ -67,7 +68,7 @@
     "tslint": "~5.17.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project",
+  "description": "Ad-hoc search engine for the Bible",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -83,6 +84,10 @@
       },
       "cordova-admob-sdk": {
         "PLAY_SERVICES_VERSION": "11.6.0"
+      },
+      "cordova-android-support-gradle-release": {
+        "ANDROID_SUPPORT_VERSION": "27.+",
+        "CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL": "https://services.gradle.org/distributions/gradle-5.1.1-all.zip"
       }
     },
     "platforms": [
