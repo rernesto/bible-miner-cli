@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "loading": "Cargando...",
+    "search_in_the_bible": "Buscar en la biblia",
+    "search": "Buscar",
+    "help": "Ayuda",
+    "about_us": "Acerca de"
+  },
+  "content": {
+    "help": {
+      "how_to_use_title": "Modo de Uso",
+      "introduction": "Este es un motor de búsqueda que utiliza técnicas avanzadas de Recuperación de Información para realizar búsquedas en el texto bíblico.",
+      "how_to_use_content": "Primero debe seleccionar una versión de la Biblia, el sistema selecciona una por defecto acorde al idioma de su navegador/dispositivo. <br /> Proceda a crear su consulta de búsqueda usando al menos tres términos: <br /> \"<i>angel evangelio eterno predicar</i>\". <br />Una vez que obtenga los resultados deseados puede hacer clic/tap en cualquier resultado para realizar una nueva búsqueda a partir del verso seleccionado.",
+      "bible_miner_website": "Una versión más avanzada se encuentra en el sitio web <a href=\"https://www.bible-miner.org\" target=\"_blank\">Bible Miner</a>. La misma incluye Diccionarios B&iacute;blicos de referencia, res&uacute;menes autom&aacute;ticos y lectura de contexto."
+    }
+  }
+}

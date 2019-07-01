@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-item>
-      <img alt="logo" height="40"   src="../../assets/icon/icon.png" >
+      <img alt="logo" height="40"   src="../../../assets/icon/icon.png" >
       <ion-title>
         Bible Miner
       </ion-title>
@@ -16,7 +16,7 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Search in the Bible" type="text" text-left id="input" [(ngModel)]="searchValue">
+        <ion-input [placeholder]="'messages.search_in_the_bible' | translate" type="text" text-left id="input" [(ngModel)]="searchValue">
         </ion-input>
         <ion-button (click)="getSearchResults($event)">
           <ion-icon slot="icon-only" name="search"></ion-icon>
@@ -39,8 +39,7 @@
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Loading more data...">
+        loadingSpinner="bubbles">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

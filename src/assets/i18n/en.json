@@ -1,0 +1,17 @@
+{
+  "messages": {
+    "loading": "Loading...",
+    "search_in_the_bible": "Search in the Bible",
+    "search": "Search",
+    "help": "Help",
+    "about_us": "About Us"
+  },
+  "content": {
+    "help": {
+      "how_to_use_title": "How to Use",
+      "introduction": "This is a search engine using advanced Information Retrieval techniques in order to search through biblical verses.",
+      "how_to_use_content": "First select a Bible version, then create your search query using at least three terms i.e: <br /> \"God created heaven earth\". When you get results also you will be able to click/tap on any specific verse and the new search query will be created using the selected verse keywords.",
+      "bible_miner_website": "More advanced version it's available at\n <a href=\"https://www.bible-miner.org\" target=\"_blank\">Bible Miner website</a>. There you can find Biblical Dictionaries search, automated summaries and context reading."
+    }
+  }
+}

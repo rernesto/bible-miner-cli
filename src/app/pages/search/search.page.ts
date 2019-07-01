@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonInfiniteScroll, IonContent} from '@ionic/angular';
-import {RemoteApiService} from '../services/remote-api.service';
+import {IonInfiniteScroll, IonContent, LoadingController} from '@ionic/angular';
+import {RemoteApiService} from '../../services/remote-api.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
@@ -9,17 +10,6 @@ import {RemoteApiService} from '../services/remote-api.service';
 })
 export class SearchPage implements OnInit {
 
-  constructor(private apiService: RemoteApiService) {
-    // this.searchValue = 'principio dios creo cielo';
-    const language = navigator.language.substring(0, 2);
-    if (language === 'en')
-    {
-      this.bibleVersionValue = 1;
-    } else {
-      this.bibleVersionValue = 2;
-    }
-    this.page = 1;
-  }
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent) content: IonContent;
 
@@ -29,6 +19,23 @@ export class SearchPage implements OnInit {
   records = [];
   bibleVersions = [];
   info: any;
+  messages: {[x: string]: any};
+
+  constructor(private apiService: RemoteApiService,
+              private loadingController: LoadingController,
+              private translateService: TranslateService) {
+
+    if (this.translateService.getBrowserLang() === 'en') {
+      this.bibleVersionValue = 1;
+    } else if (this.translateService.getBrowserLang() === 'es') {
+      this.bibleVersionValue = 2;
+    } else {
+      this.bibleVersionValue = 1;
+    }
+    this.page = 1;
+
+    this.initTranslator();
+  }
 
   static compareWith(o1, o2): boolean {
     console.log('comparing');
@@ -38,6 +45,20 @@ export class SearchPage implements OnInit {
   ngOnInit() {
     this.apiService.getBibleVersions().subscribe(response => {
       this.bibleVersions = response;
+    });
+  }
+
+  async initTranslator() {
+    this.translateService.setDefaultLang('en');
+
+    if (this.translateService.getBrowserLang() !== undefined) {
+      this.translateService.use(this.translateService.getBrowserLang());
+    } else {
+      this.translateService.use('en'); // Set your language here
+    }
+
+    await this.translateService.get('messages').subscribe(trans => {
+      this.messages = trans;
     });
   }
 
@@ -51,6 +72,7 @@ export class SearchPage implements OnInit {
       this.page = 1;
       this.records = [];
       this.info = {};
+      this.presentLoading();
       this.apiService.searchData(
         this.searchValue, this.bibleVersionValue, this.page
       ).subscribe(response => {
@@ -58,6 +80,7 @@ export class SearchPage implements OnInit {
         this.info = response.info;
         this.page = this.info.currentPage;
         this.content.scrollToTop();
+        this.loadingController.dismiss();
       });
     }, 500);
   }
@@ -77,5 +100,17 @@ export class SearchPage implements OnInit {
         });
       }, 500);
     }
+  }
+
+  async presentLoading() {
+
+    const loading = await this.loadingController.create({
+      message: `${this.messages.loading}`,
+      // duration: 2000,
+      spinner: 'dots'
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
   }
 }
