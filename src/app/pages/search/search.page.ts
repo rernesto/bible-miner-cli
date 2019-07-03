@@ -3,20 +3,26 @@ import {IonInfiniteScroll, IonContent, LoadingController} from '@ionic/angular';
 import {RemoteApiService} from '../../services/remote-api.service';
 import {TranslateService} from '@ngx-translate/core';
 
+// export interface BibleVersion {
+//   id: number;
+//   name: string;
+// }
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
   styleUrls: ['./search.page.scss'],
 })
+
 export class SearchPage implements OnInit {
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent) content: IonContent;
 
   searchValue: string;
-  bibleVersionValue: number;
   page: number;
   records = [];
+  bibleVersionValue: {[x: string]: any};
   bibleVersions = [];
   info: any;
   messages: {[x: string]: any};
@@ -26,18 +32,18 @@ export class SearchPage implements OnInit {
               private translateService: TranslateService) {
 
     if (this.translateService.getBrowserLang() === 'en') {
-      this.bibleVersionValue = 1;
+      this.bibleVersionValue = { id: 1 };
     } else if (this.translateService.getBrowserLang() === 'es') {
-      this.bibleVersionValue = 2;
+      this.bibleVersionValue = { id: 2 };
     } else {
-      this.bibleVersionValue = 1;
+      this.bibleVersionValue = { id: 1 };
     }
     this.page = 1;
 
     this.initTranslator();
   }
 
-  static compareWith(o1, o2): boolean {
+  compareWithFn(o1, o2): boolean {
     console.log('comparing');
     return o1 && o2 ? o1.id === o2.id : o1 === o2;
   }
@@ -74,7 +80,7 @@ export class SearchPage implements OnInit {
       this.info = {};
       this.presentLoading();
       this.apiService.searchData(
-        this.searchValue, this.bibleVersionValue, this.page
+        this.searchValue, this.bibleVersionValue.id, this.page
       ).subscribe(response => {
         this.records = this.records.concat(response.results);
         this.info = response.info;
@@ -92,7 +98,7 @@ export class SearchPage implements OnInit {
     } else {
       setTimeout(() => {
         this.apiService.searchData(
-            this.searchValue, this.bibleVersionValue, this.page
+            this.searchValue, this.bibleVersionValue.id, this.page
         ).subscribe(response => {
           this.records = this.records.concat(response.results);
           this.info = response.info;

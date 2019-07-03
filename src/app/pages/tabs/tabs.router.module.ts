@@ -17,6 +17,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'read',
+        children: [
+          {
+            path: '',
+            loadChildren: '../read/read.module#ReadPageModule'
+          }
+        ]
+      },
+      {
         path: 'about',
         children: [
           {

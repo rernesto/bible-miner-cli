@@ -1,10 +1,18 @@
 {
   "messages": {
     "loading": "Cargando...",
-    "search_in_the_bible": "Buscar en la biblia",
+    "no_results": "No hay resultados que mostrar...",
+    "search_in_the_bible": "Buscar en la biblia...",
     "search": "Buscar",
+    "read": "Leer",
     "help": "Ayuda",
-    "about_us": "Acerca de"
+    "about_us": "Acerca de",
+    "select_bible_version": "Seleccione versión...",
+    "ok": "Aceptar",
+    "cancel": "Cancelar",
+    "book": "Libro",
+    "chapter": "Capítulo",
+    "verse": "Versículo"
   },
   "content": {
     "help": {

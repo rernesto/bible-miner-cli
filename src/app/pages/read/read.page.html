@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <img alt="logo" height="40"   src="../../../assets/icon/icon.png" >
+      <ion-title>
+        Bible Miner
+      </ion-title>
+    </ion-item>
+    <ion-item-group>
+      <ion-item>
+        <ion-select [(ngModel)]="bibleVersionValue" [placeholder]="'messages.select_bible_version' | translate"
+                    [compareWith]="compareWithFn" (ionChange)="getBibleBooks()"
+                    [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="min-width: 100%;">
+          <ion-select-option *ngFor="let bibleVersion of bibleVersions" [value]="bibleVersion">{{ bibleVersion.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select [(ngModel)]="bibleBookValue" [placeholder]="'messages.book' | translate"
+                    [compareWith]="compareWithFn" (ionChange)="getBibleBookChapters()"
+                    [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 40%;">
+          <ion-select-option *ngFor="let bibleBook of bibleBooks" [value]="bibleBook">{{ bibleBook.canonicalName }}</ion-select-option>
+        </ion-select>
+        <ion-select [(ngModel)]="bibleChapterValue" [placeholder]="'messages.chapter' | translate"
+                    [compareWith]="compareWithFn" (ionChange)="getBibleBookVerseNumbers()"
+                    [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 25%;">
+          <ion-select-option *ngFor="let bibleChapter of bibleChapters" [value]="bibleChapter">{{ bibleChapter.chapter }}</ion-select-option>
+        </ion-select>
+        <ion-select [(ngModel)]="bibleVerseNumberValue" [placeholder]="'messages.verse' | translate"
+                    [compareWith]="compareWithFn"
+                    [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 25%;">
+          <ion-select-option *ngFor="let bibleVerseNumber of bibleVerseNumbers" [value]="bibleVerseNumber">{{ bibleVerseNumber.verse }}</ion-select-option>
+        </ion-select>
+        <ion-button (click)="getVerseRecords()">
+          <ion-icon slot="icon-only" name="bookmarks"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-item-group>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="verseRecords.length <= 0" padding style="color: darkgray;"
+       [innerHTML]="'messages.no_results' | translate"></div>
+  <ion-list>
+    <ion-item button *ngFor="let record of verseRecords">
+      <ion-label text-wrap>
+        <h2 style="color: saddlebrown">{{ record.reference }}</h2>
+        <div [innerHTML]="record.verse_text"></div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+<!--  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreDown($event)">-->
+<!--    <ion-infinite-scroll-content-->
+<!--        loadingSpinner="bubbles">-->
+<!--    </ion-infinite-scroll-content>-->
+<!--  </ion-infinite-scroll>-->
+</ion-content>
