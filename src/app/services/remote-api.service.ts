@@ -43,9 +43,13 @@ export class RemoteApiService {
     );
   }
 
-  getBibleBookChapterVerses(versionId: number, bookId: number, chapter: number, verse: number): Observable<any> {
+  getBibleBookChapterVerses(versionId: number, bookId: number, chapter: number, verse: number, page: number = null): Observable<any> {
+    let params = `version=${versionId}&book=${bookId}&chapter=${chapter}&verse=${verse}`;
+    if (page !== null) {
+      params = params + `&page=${page}`;
+    }
     return this.http.get(
-        `${this.url}bible_verses/read?version=${versionId}&book=${bookId}&chapter=${chapter}&verse=${verse}`
+        `${this.url}bible_verses/read?${params}`
     );
   }
 }

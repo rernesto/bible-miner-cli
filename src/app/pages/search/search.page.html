@@ -8,11 +8,12 @@
     </ion-item>
     <ion-item-group>
       <ion-item>
-        <ion-input [placeholder]="'messages.search_in_the_bible' | translate" type="text" text-left id="input" [(ngModel)]="searchValue">
-        </ion-input>
-        <ion-button (click)="getSearchResults($event)">
-          <ion-icon slot="icon-only" name="search"></ion-icon>
-        </ion-button>
+          <ion-input [placeholder]="'messages.search_in_the_bible' | translate"
+                     type="text" text-left id="input" [(ngModel)]="searchValue" clearInput required>
+          </ion-input>
+          <ion-button [disabled]="!searchValue" (click)="getSearchResults($event)">
+            <ion-icon slot="icon-only" name="search"></ion-icon>
+          </ion-button>
       </ion-item>
       <ion-item>
         <ion-select [(ngModel)]="bibleVersionValue" [placeholder]="'messages.select_bible_version' | translate"
@@ -37,7 +38,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+  <ion-infinite-scroll *ngIf="records.length > 0"  threshold="100px" (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content
         loadingSpinner="bubbles">
     </ion-infinite-scroll-content>

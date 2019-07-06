@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {RemoteApiService} from '../../services/remote-api.service';
-import {IonInfiniteScroll, IonContent, LoadingController} from '@ionic/angular';
+import {IonContent, LoadingController, IonSlides} from '@ionic/angular';
 
 @Component({
   selector: 'app-read',
@@ -9,9 +9,8 @@ import {IonInfiniteScroll, IonContent, LoadingController} from '@ionic/angular';
   styleUrls: ['./read.page.scss'],
 })
 export class ReadPage implements OnInit {
-
-  // @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild('slider') private slider: IonSlides;
 
   messages: {[x: string]: any};
   bibleVersionValue: {[x: string]: any};
@@ -22,9 +21,10 @@ export class ReadPage implements OnInit {
   bibleChapters = [];
   bibleVerseNumberValue: {[x: string]: any};
   bibleVerseNumbers = [];
-  verseRecords = [];
-  page: number;
+  currentVerseRecords = [];
+  page: number = null;
   info: {[x: string]: any};
+  idRefRegExp: RegExp = /\s|:/gi;
 
   constructor(private apiService: RemoteApiService,
               private loadingController: LoadingController,
@@ -61,7 +61,8 @@ export class ReadPage implements OnInit {
       this.bibleChapters = null;
       this.bibleVerseNumberValue = null;
       this.bibleVerseNumbers = null;
-      this.verseRecords = [];
+      this.currentVerseRecords = [];
+      this.page = null;
     });
   }
 
@@ -72,6 +73,7 @@ export class ReadPage implements OnInit {
         this.bibleChapterValue = null;
         this.bibleVerseNumberValue = null;
         this.bibleVerseNumbers = null;
+        this.page = null;
       });
     }
   }
@@ -81,6 +83,7 @@ export class ReadPage implements OnInit {
       this.apiService.getBibleBookVerseNumbers(this.bibleBookValue.id, this.bibleChapterValue.chapter).subscribe(response => {
         this.bibleVerseNumbers = response;
         this.bibleVerseNumberValue = null;
+        this.page = null;
       });
     }
   }
@@ -111,66 +114,70 @@ export class ReadPage implements OnInit {
     const { role, data } = await loading.onDidDismiss();
   }
 
+  rotatePages() {
+    this.slider.getActiveIndex().then( idx => {
+      const sliderIndex = idx;
+      let noChanges = false;
+      if (sliderIndex <= 0) {
+        this.page--;
+        // Shift data to right
+        if (this.page < 1) {
+          this.page = 1;
+          noChanges = true;
+        }
+      } else if (sliderIndex >= 2) {
+        this.page++;
+        // Shift data to left
+        if (this.page > this.info.maxPage) {
+          this.page = this.info.maxPage;
+          noChanges = true;
+        }
+      }
+      if (noChanges === true) {
+        this.slider.slideTo(1, 0, false);
+      } else {
+        this.getVerseRecords();
+      }
+    });
+  }
 
-  getVerseRecords() {
+  goToBookMark() {
+    this.page = null;
+    this.getVerseRecords(true);
+  }
+
+  getVerseRecords(scrollToVerse: boolean = false) {
     if (this.bibleBookValue !== null && this.bibleChapterValue !== null && this.bibleVerseNumberValue !== null) {
       this.presentLoading();
-      setTimeout(() => {
-        this.apiService.getBibleBookChapterVerses(
+      setTimeout(async () => {
+        await this.apiService.getBibleBookChapterVerses(
             this.bibleVersionValue.id,
             this.bibleBookValue.id,
             this.bibleChapterValue.id,
-            this.bibleVerseNumberValue.id
+            this.bibleVerseNumberValue.id,
+            this.page
         ).subscribe(response => {
-          this.verseRecords = response.results;
           this.info = response.info;
           this.page = this.info.currentPage;
-          this.content.scrollToTop();
-          this.loadingController.dismiss();
+          this.currentVerseRecords = response.results;
+          this.slider.slideTo(1, 0, false).then(() => {
+            this.loadingController.dismiss().then(() => {
+              if (scrollToVerse === true) {
+                this.scrollToVerse();
+              } else {
+                this.content.scrollToTop();
+              }
+            });
+          });
         });
       }, 500);
     }
   }
 
-  // loadMoreDown(event) {
-  //   this.page++;
-  //   if (this.page > this.info.maxPage) {
-  //     event.target.complete();
-  //   } else {
-  //     setTimeout(() => {
-  //       this.apiService.getBibleBookChapterVerses(
-  //           this.bibleVersionValue.id,
-  //           this.bibleBookValue.id,
-  //           this.bibleChapterValue.id,
-  //           this.bibleVerseNumberValue.id
-  //       ).subscribe(response => {
-  //         this.verseRecords = this.verseRecords.concat(response.results);
-  //         this.info = response.info;
-  //         this.page = this.info.currentPage;
-  //         event.target.complete();
-  //       });
-  //     }, 500);
-  //   }
-  // }
-  //
-  // loadMoreTop(event) {
-  //   this.page--;
-  //   if (this.page > this.info.maxPage) {
-  //     event.target.complete();
-  //   } else {
-  //     setTimeout(() => {
-  //       this.apiService.getBibleBookChapterVerses(
-  //           this.bibleVersionValue.id,
-  //           this.bibleBookValue.id,
-  //           this.bibleChapterValue.id,
-  //           this.bibleVerseNumberValue.id
-  //       ).subscribe(response => {
-  //         this.verseRecords = this.verseRecords.concat(response.results);
-  //         this.info = response.info;
-  //         this.page = this.info.currentPage;
-  //         event.target.complete();
-  //       });
-  //     }, 500);
-  //   }
-  // }
+  scrollToVerse() {
+    const element = this.bibleBookValue.shortName.toLowerCase() + '-' +
+      this.bibleChapterValue.chapter + '-' + this.bibleVerseNumberValue.verse;
+    const yOffset = document.getElementById(element).parentElement.offsetTop;
+    this.content.scrollToPoint(0, yOffset, 1000);
+  }
 }

@@ -30,7 +30,7 @@
                     [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 25%;">
           <ion-select-option *ngFor="let bibleVerseNumber of bibleVerseNumbers" [value]="bibleVerseNumber">{{ bibleVerseNumber.verse }}</ion-select-option>
         </ion-select>
-        <ion-button (click)="getVerseRecords()">
+        <ion-button (click)="goToBookMark()">
           <ion-icon slot="icon-only" name="bookmarks"></ion-icon>
         </ion-button>
       </ion-item>
@@ -39,20 +39,21 @@
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="verseRecords.length <= 0" padding style="color: darkgray;"
+  <div *ngIf="currentVerseRecords.length <= 0" padding style="color: darkgray;"
        [innerHTML]="'messages.no_results' | translate"></div>
-  <ion-list>
-    <ion-item button *ngFor="let record of verseRecords">
-      <ion-label text-wrap>
-        <h2 style="color: saddlebrown">{{ record.reference }}</h2>
-        <div [innerHTML]="record.verse_text"></div>
-      </ion-label>
-    </ion-item>
-  </ion-list>
 
-<!--  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreDown($event)">-->
-<!--    <ion-infinite-scroll-content-->
-<!--        loadingSpinner="bubbles">-->
-<!--    </ion-infinite-scroll-content>-->
-<!--  </ion-infinite-scroll>-->
+  <ion-slides #slider (ionSlideDidChange)="rotatePages()" *ngIf="currentVerseRecords.length >= 0">
+    <ion-slide>&nbsp;</ion-slide>
+    <ion-slide>
+        <ion-list>
+          <ion-item *ngFor="let record of currentVerseRecords; let i = index; let last = last;">
+            <ion-label text-wrap [id]="record.reference.toLowerCase().replace(idRefRegExp, '-')">
+              <h2 style="color: saddlebrown">{{ record.reference }}</h2>
+              <div [innerHTML]="record.verse_text"></div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+    </ion-slide>
+    <ion-slide>&nbsp;</ion-slide>
+  </ion-slides>
 </ion-content>
