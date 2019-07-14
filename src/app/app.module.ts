@@ -11,9 +11,6 @@ import { AppComponent } from './app.component';
 
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 
-import { AdMobFree } from '@ionic-native/admob-free/ngx';
-import { AdmobFreeService } from './services/admob-free.service';
-
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -41,8 +38,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     StatusBar,
     SplashScreen,
-    AdMobFree,
-    AdmobFreeService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

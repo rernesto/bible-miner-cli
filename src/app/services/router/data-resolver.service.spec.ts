@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AdmobFreeService } from './admob-free.service';
+import { DataResolverService } from './data-resolver.service';
 
-describe('AdmobFreeService', () => {
+describe('DataResolverService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AdmobFreeService = TestBed.get(AdmobFreeService);
+    const service: DataResolverService = TestBed.get(DataResolverService);
     expect(service).toBeTruthy();
   });
 });

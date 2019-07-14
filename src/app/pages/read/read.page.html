@@ -49,7 +49,7 @@
           <ion-item *ngFor="let record of currentVerseRecords; let i = index; let last = last;">
             <ion-label text-wrap [id]="record.reference.toLowerCase().replace(idRefRegExp, '-')">
               <h2 style="color: saddlebrown">{{ record.reference }}</h2>
-              <div [innerHTML]="record.verse_text"></div>
+              <div button (click)="getSearchResultsByVerse($event)" [innerHTML]="record.verse_text"></div>
             </ion-label>
           </ion-item>
         </ion-list>

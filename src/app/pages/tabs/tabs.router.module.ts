@@ -1,12 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import {DataResolverService} from '../../services/router/data-resolver.service';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/tabs/search',
+    pathMatch: 'full'
+  },
   {
     path: 'tabs',
     component: TabsPage,
     children: [
+      {
+        path: '',
+        redirectTo: '/tabs/search',
+        pathMatch: 'full'
+      },
       {
         path: 'search',
         children: [
@@ -15,6 +26,13 @@ const routes: Routes = [
             loadChildren: '../search/search.module#SearchPageModule'
           }
         ]
+      },
+      {
+        path: 'search/:id',
+        resolve: {
+          routeParams: DataResolverService
+        },
+        loadChildren: '../search/search.module#SearchPageModule'
       },
       {
         path: 'read',
@@ -42,18 +60,8 @@ const routes: Routes = [
             loadChildren: '../help/help.module#HelpPageModule'
           }
         ]
-      },
-      {
-        path: '',
-        redirectTo: '/tabs/search',
-        pathMatch: 'full'
       }
     ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/search',
-    pathMatch: 'full'
   }
 ];
 

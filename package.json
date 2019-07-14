@@ -1,6 +1,6 @@
 {
   "name": "org.bible.miner.search",
-  "version": "0.0.1",
+  "version": "0.1.6",
   "author": "Rafael Ernesto Espinosa Santiesteban <rafael.espinosa@bible-miner.org>",
   "homepage": "https://www.bible-miner.org",
   "scripts": {
@@ -20,20 +20,19 @@
     "@angular/platform-browser": "^7.2.2",
     "@angular/platform-browser-dynamic": "^7.2.2",
     "@angular/router": "^7.2.2",
-    "@ionic-native/admob-free": "^5.8.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/splash-screen": "^5.0.0",
     "@ionic-native/status-bar": "^5.0.0",
-    "@ionic/angular": "4.5.0",
+    "@ionic/angular": "^4.6",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
-    "cordova-admob-sdk": "0.24.1",
+    "cordova-admob-plus": "^0.30.0",
     "cordova-android": "^8.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
-    "cordova-plugin-admob-free": "^0.27.0",
-    "cordova-promise-polyfill": "0.0.2",
     "core-js": "^2.5.4",
     "rxjs": "~6.5.1",
+    "rxjs-compat": "^6.5.2",
+    "ts-md5": "^1.2.4",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.29"
   },
@@ -81,15 +80,13 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-admob-free": {
-        "ADMOB_APP_ID": "ca-app-pub-5311874154265090~3210105862"
-      },
-      "cordova-admob-sdk": {
-        "PLAY_SERVICES_VERSION": "11.6.0"
-      },
       "cordova-android-support-gradle-release": {
         "ANDROID_SUPPORT_VERSION": "27.+",
         "CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL": "https://services.gradle.org/distributions/gradle-5.1.1-all.zip"
+      },
+      "cordova-admob-plus": {
+        "APP_ID_ANDROID": "ca-app-pub-5311874154265090~3210105862",
+        "PLAY_SERVICES_VERSION": "17.2.0"
       }
     },
     "platforms": [

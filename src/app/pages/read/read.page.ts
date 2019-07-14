@@ -2,6 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {RemoteApiService} from '../../services/remote-api.service';
 import {IonContent, LoadingController, IonSlides} from '@ionic/angular';
+import {Md5} from 'ts-md5';
+import {DataService} from '../../services/router/data.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-read',
@@ -26,9 +29,13 @@ export class ReadPage implements OnInit {
   info: {[x: string]: any};
   idRefRegExp: RegExp = /\s|:/gi;
 
-  constructor(private apiService: RemoteApiService,
-              private loadingController: LoadingController,
-              private translateService: TranslateService) {
+  constructor(
+      private apiService: RemoteApiService,
+      private loadingController: LoadingController,
+      private translateService: TranslateService,
+      private dataService: DataService,
+      private router: Router
+  ) {
     if (this.translateService.getBrowserLang() === 'en') {
       this.bibleVersionValue = { id: 1 };
     } else if (this.translateService.getBrowserLang() === 'es') {
@@ -53,6 +60,15 @@ export class ReadPage implements OnInit {
     });
   }
 
+  getSearchResultsByVerse(event) {
+    const id =  Md5.hashStr('read');
+    this.dataService.setData(id, {
+      searchValue: event.target.innerHTML,
+      bibleVersionValue: this.bibleVersionValue
+    });
+    this.router.navigateByUrl('/tabs/search/' + id);
+  }
+
   getBibleBooks() {
     this.apiService.getBibleBooks(this.bibleVersionValue.language).subscribe(response => {
       this.bibleBooks = response;
@@ -70,8 +86,8 @@ export class ReadPage implements OnInit {
     if (this.bibleBookValue !== null) {
       this.apiService.getBibleBookChapters(this.bibleBookValue.id).subscribe(response => {
         this.bibleChapters = response;
-        this.bibleChapterValue = null;
-        this.bibleVerseNumberValue = null;
+        this.bibleChapterValue = {id: '1', chapter: '1'};
+        this.bibleVerseNumberValue = {id: '1', verse: '1'};
         this.bibleVerseNumbers = null;
         this.page = null;
       });
@@ -82,7 +98,7 @@ export class ReadPage implements OnInit {
     if (this.bibleBookValue !== null && this.bibleChapterValue !== null) {
       this.apiService.getBibleBookVerseNumbers(this.bibleBookValue.id, this.bibleChapterValue.chapter).subscribe(response => {
         this.bibleVerseNumbers = response;
-        this.bibleVerseNumberValue = null;
+        this.bibleVerseNumberValue = {id: '1', verse: '1'};
         this.page = null;
       });
     }
@@ -147,7 +163,7 @@ export class ReadPage implements OnInit {
   }
 
   getVerseRecords(scrollToVerse: boolean = false) {
-    if (this.bibleBookValue !== null && this.bibleChapterValue !== null && this.bibleVerseNumberValue !== null) {
+    if (this.bibleBookValue !== null) {
       this.presentLoading();
       setTimeout(async () => {
         await this.apiService.getBibleBookChapterVerses(

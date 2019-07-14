@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonInfiniteScroll, IonContent, LoadingController} from '@ionic/angular';
 import {RemoteApiService} from '../../services/remote-api.service';
 import {TranslateService} from '@ngx-translate/core';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 // export interface BibleVersion {
 //   id: number;
@@ -27,9 +29,12 @@ export class SearchPage implements OnInit {
   info: any;
   messages: {[x: string]: any};
 
-  constructor(private apiService: RemoteApiService,
-              private loadingController: LoadingController,
-              private translateService: TranslateService) {
+  constructor(
+      private apiService: RemoteApiService,
+      private loadingController: LoadingController,
+      private translateService: TranslateService,
+      private route: ActivatedRoute
+  ) {
 
     if (this.translateService.getBrowserLang() === 'en') {
       this.bibleVersionValue = { id: 1 };
@@ -52,6 +57,14 @@ export class SearchPage implements OnInit {
     this.apiService.getBibleVersions().subscribe(response => {
       this.bibleVersions = response;
     });
+  }
+
+  ionViewWillEnter() {
+    if (this.route.snapshot.data.routeParams) {
+      this.searchValue = this.route.snapshot.data.routeParams.searchValue;
+      this.bibleVersionValue = this.route.snapshot.data.routeParams.bibleVersionValue;
+      this.getSearchResults(this.infiniteScroll);
+    }
   }
 
   async initTranslator() {
@@ -87,6 +100,8 @@ export class SearchPage implements OnInit {
         this.page = this.info.currentPage;
         this.content.scrollToTop();
         this.loadingController.dismiss();
+        this.route.snapshot.data.routeParams.searchValue = this.searchValue;
+        this.route.snapshot.data.routeParams.bibleVersionValue = this.bibleVersionValue;
       });
     }, 500);
   }
