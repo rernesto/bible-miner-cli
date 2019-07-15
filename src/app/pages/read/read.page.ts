@@ -60,10 +60,10 @@ export class ReadPage implements OnInit {
     });
   }
 
-  getSearchResultsByVerse(event) {
+  getSearchResultsByVerse(record) {
     const id =  Md5.hashStr('read');
     this.dataService.setData(id, {
-      searchValue: event.target.innerHTML,
+      searchValue: record.verse_text,
       bibleVersionValue: this.bibleVersionValue
     });
     this.router.navigateByUrl('/tabs/search/' + id);

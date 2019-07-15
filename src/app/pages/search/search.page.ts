@@ -81,8 +81,8 @@ export class SearchPage implements OnInit {
     });
   }
 
-  getSearchResultsByVerse(event) {
-    this.searchValue = event.target.innerHTML;
+  getSearchResultsByVerse(record) {
+    this.searchValue = record.searchValue;
     this.getSearchResults(this.infiniteScroll);
   }
 

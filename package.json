@@ -1,6 +1,6 @@
 {
   "name": "org.bible.miner.search",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "author": "Rafael Ernesto Espinosa Santiesteban <rafael.espinosa@bible-miner.org>",
   "homepage": "https://www.bible-miner.org",
   "scripts": {
@@ -26,7 +26,6 @@
     "@ionic/angular": "^4.6",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
-    "cordova-admob-plus": "^0.30.0",
     "cordova-android": "^8.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "core-js": "^2.5.4",
@@ -83,10 +82,6 @@
       "cordova-android-support-gradle-release": {
         "ANDROID_SUPPORT_VERSION": "27.+",
         "CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL": "https://services.gradle.org/distributions/gradle-5.1.1-all.zip"
-      },
-      "cordova-admob-plus": {
-        "APP_ID_ANDROID": "ca-app-pub-5311874154265090~3210105862",
-        "PLAY_SERVICES_VERSION": "17.2.0"
       }
     },
     "platforms": [

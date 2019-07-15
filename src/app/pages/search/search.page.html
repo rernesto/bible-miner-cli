@@ -11,13 +11,14 @@
           <ion-input [placeholder]="'messages.search_in_the_bible' | translate"
                      type="text" text-left id="input" [(ngModel)]="searchValue" clearInput required>
           </ion-input>
-          <ion-button [disabled]="!searchValue" (click)="getSearchResults($event)">
+          <ion-button size="default" [disabled]="!searchValue" (click)="getSearchResults($event)">
             <ion-icon slot="icon-only" name="search"></ion-icon>
           </ion-button>
       </ion-item>
       <ion-item>
         <ion-select [(ngModel)]="bibleVersionValue" [placeholder]="'messages.select_bible_version' | translate"
                     [compareWith]="compareWithFn"
+                    interface="action-sheet"
                     [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="min-width: 100%;">
           <ion-select-option *ngFor="let bibleVersion of bibleVersions" [value]="bibleVersion">{{ bibleVersion.name }}</ion-select-option>
         </ion-select>
@@ -30,11 +31,14 @@
   <div *ngIf="records.length <= 0" padding style="color: darkgray;"
        [innerHTML]="'messages.no_results' | translate"></div>
   <ion-list>
-    <ion-item button *ngFor="let record of records">
+    <ion-item *ngFor="let record of records">
       <ion-label text-wrap>
         <h2 style="color: saddlebrown">{{ record.reference }}</h2>
-        <div [innerHTML]="record.verse_text" (click)="getSearchResultsByVerse($event)"></div>
+        <div [innerHTML]="record.verse_text"></div>
       </ion-label>
+      <ion-button color="secondary" (click)="getSearchResultsByVerse(record)">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
 

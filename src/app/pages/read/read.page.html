@@ -10,6 +10,7 @@
       <ion-item>
         <ion-select [(ngModel)]="bibleVersionValue" [placeholder]="'messages.select_bible_version' | translate"
                     [compareWith]="compareWithFn" (ionChange)="getBibleBooks()"
+                    interface="action-sheet"
                     [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="min-width: 100%;">
           <ion-select-option *ngFor="let bibleVersion of bibleVersions" [value]="bibleVersion">{{ bibleVersion.name }}</ion-select-option>
         </ion-select>
@@ -17,20 +18,27 @@
       <ion-item>
         <ion-select [(ngModel)]="bibleBookValue" [placeholder]="'messages.book' | translate"
                     [compareWith]="compareWithFn" (ionChange)="getBibleBookChapters()"
+                    interface="action-sheet"
                     [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 40%;">
           <ion-select-option *ngFor="let bibleBook of bibleBooks" [value]="bibleBook">{{ bibleBook.canonicalName }}</ion-select-option>
         </ion-select>
         <ion-select [(ngModel)]="bibleChapterValue" [placeholder]="'messages.chapter' | translate"
                     [compareWith]="compareWithFn" (ionChange)="getBibleBookVerseNumbers()"
+                    interface="action-sheet"
                     [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 25%;">
-          <ion-select-option *ngFor="let bibleChapter of bibleChapters" [value]="bibleChapter">{{ bibleChapter.chapter }}</ion-select-option>
+          <ion-select-option
+              *ngFor="let bibleChapter of bibleChapters"
+              [value]="bibleChapter">
+            {{ bibleChapter.chapter }}
+          </ion-select-option>
         </ion-select>
         <ion-select [(ngModel)]="bibleVerseNumberValue" [placeholder]="'messages.verse' | translate"
                     [compareWith]="compareWithFn"
+                    interface="action-sheet"
                     [okText]="'messages.ok' | translate" [cancelText]="'messages.cancel' | translate" style="width: 25%;">
           <ion-select-option *ngFor="let bibleVerseNumber of bibleVerseNumbers" [value]="bibleVerseNumber">{{ bibleVerseNumber.verse }}</ion-select-option>
         </ion-select>
-        <ion-button (click)="goToBookMark()">
+        <ion-button [disabled]="!bibleBookValue" size="default" (click)="goToBookMark()">
           <ion-icon slot="icon-only" name="bookmarks"></ion-icon>
         </ion-button>
       </ion-item>
@@ -49,8 +57,11 @@
           <ion-item *ngFor="let record of currentVerseRecords; let i = index; let last = last;">
             <ion-label text-wrap [id]="record.reference.toLowerCase().replace(idRefRegExp, '-')">
               <h2 style="color: saddlebrown">{{ record.reference }}</h2>
-              <div button (click)="getSearchResultsByVerse($event)" [innerHTML]="record.verse_text"></div>
+              <div [innerHTML]="record.verse_text"></div>
             </ion-label>
+            <ion-button color="secondary" (click)="getSearchResultsByVerse(record)">
+              <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
           </ion-item>
         </ion-list>
     </ion-slide>
