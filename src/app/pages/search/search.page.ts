@@ -82,7 +82,7 @@ export class SearchPage implements OnInit {
   }
 
   getSearchResultsByVerse(record) {
-    this.searchValue = record.searchValue;
+    this.searchValue = record.verse_text;
     this.getSearchResults(this.infiniteScroll);
   }
 
